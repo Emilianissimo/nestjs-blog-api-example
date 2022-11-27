@@ -1,0 +1,16 @@
+### POSTS
+### Get all posts
+
+GET http://localhost:3000/api/posts
+Content-Type: application/json
+
+### Create new post
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+    "title": "Emil",
+    "description": "Pedor"
+}
+
+

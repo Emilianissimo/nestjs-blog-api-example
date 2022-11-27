@@ -1,0 +1,1 @@
+- Create preset system data inside migrations or somewhere else (fixtures)
