@@ -1,1 +1,2 @@
 - Create preset system data inside migrations or somewhere else (fixtures)
+- Why the fuck cannot connect entity into relation

@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoriesService } from 'src/categories/categories.service';
+import { CategoryEntity } from 'src/categories/category.entity';
 import { PostEntity } from './post.entity';
 import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
@@ -9,7 +11,7 @@ import { PostsService } from './posts.service';
   providers: [PostsService],
   imports: [
     TypeOrmModule.forFeature([
-      PostEntity,
+      PostEntity
     ]),
   ]
 })

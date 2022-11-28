@@ -10,6 +10,7 @@ import { PostsModule } from './posts/posts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { PostEntity } from './posts/post.entity';
 import { CategoryEntity } from './categories/category.entity';
+import { UserEntity } from './users/user.entity';
 
 require('dotenv').config();
 
@@ -33,7 +34,8 @@ require('dotenv').config();
           
                 entities: [
                     PostEntity,
-                    CategoryEntity
+                    CategoryEntity,
+                    UserEntity
                 ],
           
                 migrationsTableName: 'migration',
