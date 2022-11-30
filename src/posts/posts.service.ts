@@ -22,7 +22,7 @@ export class PostsService {
                 created_at: pageOptionsDto.order
             },
             take: pageOptionsDto.limit,
-            skip: pageOptionsDto.offset
+            skip: pageOptionsDto.offset,
         });
 
         const pageMeta = new PageMetaDTO({pageOptionsDto, itemCount});
@@ -36,14 +36,18 @@ export class PostsService {
         return this.repository.save(post);
     }
 
-    public getOne(id: number) {
-        return this.repository.findOne({
+    public async getOne(id: number) {
+        const post = this.repository.findOne({
             where: {id: id},
             relations: {
                 category: true,
                 user: true
             }
         });
+        if (!post) {
+            throw new NotFoundException('Category not found!');
+        }
+        return post;
     }
 
     public async update(id: number, attrs: Partial<PostEntity>) {

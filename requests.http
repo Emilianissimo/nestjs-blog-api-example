@@ -1,7 +1,7 @@
 ### POSTS
 ### Get all posts
 
-GET http://localhost:3000/api/posts
+GET http://localhost:3000/api/posts?page=3
 Content-Type: application/json
 
 ### Create new post
@@ -33,7 +33,7 @@ Content-Type: application/json
 ### CATEGORIES
 ### Get all categories
 
-GET http://localhost:3000/api/categories/5
+GET http://localhost:3000/api/categories/5?page=1
 Content-Type: application/json
 
 ### Create new category

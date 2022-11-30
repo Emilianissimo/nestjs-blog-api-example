@@ -5,7 +5,7 @@ import { Serialize } from '../interceptors/serialize.interceptor';
 import { PostDTO } from './dtos/post.dto';
 import { UpdatePostDTO } from './dtos/update-user.dto';
 import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
-import { PageDTO } from 'src/pagination/dtos/page.dto';
+import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 
 @Controller()
 @Serialize(PostDTO)
@@ -13,7 +13,7 @@ export class PostsController {
     constructor(private service: PostsService) {}
 
     @Get()
-    @Header('Content-Type', 'application/json; charset=utf-8')
+    @Header('Content-Type', JSON_CONTENT_TYPE)
     async index(@Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
         const response = await this.service.getAll(pageOptionsDto);
         return JSON.stringify(response);

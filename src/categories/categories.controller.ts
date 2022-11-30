@@ -1,5 +1,7 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Query } from '@nestjs/common';
+import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDTO } from './dtos/create-category.dto';
 import { SingleCategoryDTO } from './dtos/single-category.dto';
@@ -10,8 +12,10 @@ export class CategoriesController {
     constructor(private service: CategoriesService) {}
 
     @Get()
-    index() {
-        return this.service.getAll();
+    @Header('Content-Type', JSON_CONTENT_TYPE)
+    async index(@Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
+        const response = await this.service.getAll(pageOptionsDto);
+        return JSON.stringify(response);
     }
 
     @Post()
@@ -21,13 +25,15 @@ export class CategoriesController {
 
     @Get('/:id')
     @Serialize(SingleCategoryDTO)
-    show(@Param('id') id: string) {
+    @Header('Content-Type', JSON_CONTENT_TYPE)
+    async show(@Param('id') id: string, @Query() pageOptionsDto: PageOptionsDTO) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
             throw new BadRequestException('User id should be int');
         }
-        
-        return this.service.getOne(parsedId);
+        const response = await this.service.getOne(parsedId, pageOptionsDto);
+
+        return JSON.stringify(response);
     }
 
     @Patch('/:id')

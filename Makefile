@@ -1,5 +1,7 @@
 start:
 	docker-compose up -d dev db
+start-logging:
+	docker-compose up dev db
 start-prod:
 	docker-compose up -d prod db
 down:
