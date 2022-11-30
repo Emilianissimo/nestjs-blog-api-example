@@ -1,7 +1,7 @@
-import { AppModule } from "src/app.module";
-import { CategoriesModule } from "src/categories/categories.module";
-import { PostsModule } from "src/posts/posts.module";
-import { UsersModule } from "src/users/users.module";
+import { AppModule } from "../src/app.module";
+import { CategoriesModule } from "../src/categories/categories.module";
+import { PostsModule } from "../src/posts/posts.module";
+import { UsersModule } from "../src/users/users.module";
 
 export const routes = [
     {
