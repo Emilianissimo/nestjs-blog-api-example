@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ### Update category
-PATCH http://localhost:3000/api/categories/1
+PATCH http://localhost:3000/api/categories/5
 Content-Type: application/json
 
 {

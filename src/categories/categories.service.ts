@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { CategoryDTO } from './dtos/category.dto';
 import { CreateCategoryDTO } from './dtos/create-category.dto';
+import { SingleCategoryDTO } from './dtos/single-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -39,7 +40,7 @@ export class CategoriesService {
         return this.repository.save(category);
     }
 
-    public async getOne(id: number, pageOptionsDto: PageOptionsDTO) {
+    public async getOne(id: number, pageOptionsDto: PageOptionsDTO): Promise<SingleCategoryDTO> {
         let category: CategoryEntity = await this.repository.findOne({ 
             where: {id: id}, 
             relations: {

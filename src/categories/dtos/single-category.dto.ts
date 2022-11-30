@@ -1,4 +1,5 @@
 import { Expose, Transform } from "class-transformer";
+import { PageDTO } from "src/pagination/dtos/page.dto";
 import { PostEntity } from "src/posts/post.entity";
 import { UserEntity } from "src/users/user.entity";
 
@@ -17,7 +18,7 @@ export class SingleCategoryDTO {
 
     @Expose()
     @Transform(({ obj }) => obj.posts)
-    posts: PostEntity[];
+    posts: PageDTO<PostEntity>;
 
     @Expose()
     @Transform(({ obj }) => obj.user)

@@ -3,6 +3,7 @@ import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
 import { CategoriesService } from './categories.service';
+import { CategoryDTO } from './dtos/category.dto';
 import { CreateCategoryDTO } from './dtos/create-category.dto';
 import { SingleCategoryDTO } from './dtos/single-category.dto';
 import { UpdateCategoryDTO } from './dtos/update-category.dto';
@@ -26,7 +27,7 @@ export class CategoriesController {
     @Get('/:id')
     @Serialize(SingleCategoryDTO)
     @Header('Content-Type', JSON_CONTENT_TYPE)
-    async show(@Param('id') id: string, @Query() pageOptionsDto: PageOptionsDTO) {
+    async show(@Param('id') id: string, @Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
             throw new BadRequestException('User id should be int');
@@ -37,6 +38,7 @@ export class CategoriesController {
     }
 
     @Patch('/:id')
+    @Serialize(CategoryDTO)
     update(@Param('id') id: string, @Body() body: UpdateCategoryDTO) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
