@@ -1,19 +1,33 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CategoriesService } from '../categories/categories.service';
 import { Repository } from 'typeorm';
 import { CreatePostDTO } from './dtos/create-post.dto';
 import { PostEntity } from './post.entity';
+import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
+import { PageDTO } from 'src/pagination/dtos/page.dto';
+import { PostDTO } from './dtos/post.dto';
+import { PageMetaDTO } from 'src/pagination/dtos/page-meta.dto';
 
 @Injectable()
 export class PostsService {
     constructor(@InjectRepository(PostEntity) private repository: Repository<PostEntity>) {}
 
-    public getAll() {
-        return this.repository.find({relations: {
-            category: true,
-            user: true
-        }});
+    public async getAll(pageOptionsDto: PageOptionsDTO): Promise<PageDTO<PostDTO>> {
+        const [ posts, itemCount ] = await this.repository.findAndCount({
+            relations: {
+                category: true,
+                user: true
+            },
+            order: {
+                created_at: pageOptionsDto.order
+            },
+            take: pageOptionsDto.limit,
+            skip: pageOptionsDto.offset
+        });
+
+        const pageMeta = new PageMetaDTO({pageOptionsDto, itemCount});
+
+        return new PageDTO(posts, pageMeta);
     }
 
     public async store(body: CreatePostDTO) {

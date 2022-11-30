@@ -59,6 +59,7 @@ require('dotenv').config();
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         whitelist: true,
+        transform: true // required to use "get property_name(): type { return computed; }"
       })
     }
   ],

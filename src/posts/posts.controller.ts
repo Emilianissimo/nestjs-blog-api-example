@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete, Query, Header } from '@nestjs/common';
 import { CreatePostDTO } from './dtos/create-post.dto';
 import { PostsService } from './posts.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { PostDTO } from './dtos/post.dto';
 import { UpdatePostDTO } from './dtos/update-user.dto';
+import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
+import { PageDTO } from 'src/pagination/dtos/page.dto';
 
 @Controller()
 @Serialize(PostDTO)
@@ -11,8 +13,12 @@ export class PostsController {
     constructor(private service: PostsService) {}
 
     @Get()
-    index() {
-        return this.service.getAll();
+    @Header('Content-Type', 'application/json; charset=utf-8')
+    async index(@Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
+        const response = await this.service.getAll(pageOptionsDto);
+        return JSON.stringify(response);
+        // TODO dunno why but it's returning an empty object
+        // return this.service.getAll(pageOptionsDto);
     }
 
     @Post()
