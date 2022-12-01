@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Query, UnprocessableEntityException } from '@nestjs/common';
 import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
@@ -30,7 +30,7 @@ export class CategoriesController {
     async show(@Param('id') id: string, @Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
-            throw new BadRequestException('User id should be int');
+            throw new UnprocessableEntityException('User id should be int');
         }
         const response = await this.service.getOne(parsedId, pageOptionsDto);
 
@@ -42,7 +42,7 @@ export class CategoriesController {
     update(@Param('id') id: string, @Body() body: UpdateCategoryDTO) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
-            throw new BadRequestException('Post id should be int');
+            throw new UnprocessableEntityException('Post id should be int');
         }
 
         return this.service.update(parsedId, body);
@@ -52,7 +52,7 @@ export class CategoriesController {
     destroy(@Param('id') id: string) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
-            throw new BadRequestException('Post id should be int');
+            throw new UnprocessableEntityException('Post id should be int');
         }
 
         return this.service.remove(parsedId);

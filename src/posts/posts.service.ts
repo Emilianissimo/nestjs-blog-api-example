@@ -45,16 +45,13 @@ export class PostsService {
             }
         });
         if (!post) {
-            throw new NotFoundException('Category not found!');
+            throw new NotFoundException('Post not found!');
         }
         return post;
     }
 
     public async update(id: number, attrs: Partial<PostEntity>) {
         const post = await this.getOne(id);
-        if (!post) {
-            throw new NotFoundException('Post not found!');
-        }
 
         Object.assign(post, attrs);
 
@@ -63,10 +60,7 @@ export class PostsService {
 
     public async remove(id: number) {
         const post = await this.getOne(id);
-        if (!post) {
-            throw new NotFoundException('Post not found!');
-        }
-
+        
         return this.repository.remove(post);
     }
 }

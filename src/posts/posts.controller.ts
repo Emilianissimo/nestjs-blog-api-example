@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete, Query, Header } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete, Query, Header, UnprocessableEntityException } from '@nestjs/common';
 import { CreatePostDTO } from './dtos/create-post.dto';
 import { PostsService } from './posts.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -30,7 +30,7 @@ export class PostsController {
     show(@Param('id') id: string) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
-            throw new BadRequestException('User id should be int');
+            throw new UnprocessableEntityException('User id should be int');
         }
         
         return this.service.getOne(parsedId);
@@ -40,7 +40,7 @@ export class PostsController {
     update(@Param('id') id: string, @Body() body: UpdatePostDTO) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
-            throw new BadRequestException('Post id should be int');
+            throw new UnprocessableEntityException('Post id should be int');
         }
 
         return this.service.update(parsedId, body);
@@ -50,7 +50,7 @@ export class PostsController {
     destroy(@Param('id') id: string) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
-            throw new BadRequestException('Post id should be int');
+            throw new UnprocessableEntityException('Post id should be int');
         }
 
         return this.service.remove(parsedId);
