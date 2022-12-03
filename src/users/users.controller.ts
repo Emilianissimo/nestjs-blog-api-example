@@ -1,5 +1,6 @@
 import { Post, Body, Controller, Delete, Get, Header, Param, Patch, Query, UnprocessableEntityException, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { AdminGuard } from 'src/guards/admin.guard';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
@@ -21,7 +22,7 @@ export class UsersController {
 
     @Get('/profile')
     @UseGuards(JwtAuthGuard)
-    async profile(@Request() req) {
+    async profile(@Request() req: any) {
         return this.service.getOne(req.user.id);
     }
 
@@ -40,7 +41,7 @@ export class UsersController {
     }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AdminGuard)
     @Header('Content-Type', JSON_CONTENT_TYPE)
     async index(@Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
         const response = await this.service.getAll(pageOptionsDto);
@@ -48,6 +49,7 @@ export class UsersController {
     }
 
     @Get('/:id')
+    @UseGuards(AdminGuard)
     show(@Param('id') id: string) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
@@ -58,6 +60,7 @@ export class UsersController {
     }
 
     @Patch('/:id')
+    @UseGuards(AdminGuard)
     update(@Param('id') id: string, @Body() body: UpdateUserDTO) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {
@@ -68,6 +71,7 @@ export class UsersController {
     }
 
     @Delete('/:id')
+    @UseGuards(AdminGuard)
     destroy(@Param('id') id: string) {
         const parsedId = parseInt(id);
         if (isNaN(parsedId)) {

@@ -1,4 +1,5 @@
-import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Query, UnprocessableEntityException } from '@nestjs/common';
+import { Request, Body, Controller, Delete, Get, Header, Param, Patch, Post, Query, UnprocessableEntityException, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
@@ -9,6 +10,7 @@ import { SingleCategoryDTO } from './dtos/single-category.dto';
 import { UpdateCategoryDTO } from './dtos/update-category.dto';
 
 @Controller()
+@UseGuards(JwtAuthGuard)
 export class CategoriesController {
     constructor(private service: CategoriesService) {}
 
@@ -20,8 +22,8 @@ export class CategoriesController {
     }
 
     @Post()
-    store(@Body() body: CreateCategoryDTO) {
-        return this.service.store(body);
+    store(@Request() req: any, @Body() body: CreateCategoryDTO) {
+        return this.service.store(body, req.user.id);
     }
 
     @Get('/:id')

@@ -29,6 +29,11 @@ export class CategoryEntity {
     @OneToMany(() => PostEntity, (post) => post.category)
     posts: PostEntity[];
 
+    @Column({
+        nullable: true
+    })
+    userId: number;
+
     @ManyToOne(() => UserEntity, (user) => user.categories, {
         cascade: true
     })

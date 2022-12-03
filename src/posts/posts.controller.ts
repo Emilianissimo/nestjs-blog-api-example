@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete, Query, Header, UnprocessableEntityException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete, Query, Header, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { CreatePostDTO } from './dtos/create-post.dto';
 import { PostsService } from './posts.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -6,9 +6,11 @@ import { PostDTO } from './dtos/post.dto';
 import { UpdatePostDTO } from './dtos/update-user.dto';
 import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
 import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller()
 @Serialize(PostDTO)
+@UseGuards(JwtAuthGuard)
 export class PostsController {
     constructor(private service: PostsService) {}
 

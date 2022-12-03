@@ -34,8 +34,9 @@ export class CategoriesService {
         return new PageDTO(categories, pageMeta);
     }
 
-    public store(body: CreateCategoryDTO) {
+    public store(body: CreateCategoryDTO, userId: number) {
         const category = this.repository.create(body);
+        category.userId = userId;
 
         return this.repository.save(category);
     }

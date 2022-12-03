@@ -30,9 +30,10 @@ export class PostsService {
         return new PageDTO(posts, pageMeta);
     }
 
-    public async store(body: CreatePostDTO) {
+    public async store(body: CreatePostDTO, userId: number) {
         const post = this.repository.create(body);
         post.categoryId = body.category_id;
+        post.userId = userId;
         return this.repository.save(post);
     }
 
