@@ -1,4 +1,6 @@
-import { Post, Body, Controller, Delete, Get, Header, Param, Patch, Query, UnprocessableEntityException } from '@nestjs/common';
+import { Post, Body, Controller, Delete, Get, Header, Param, Patch, Query, UnprocessableEntityException, UseGuards, Request } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { JSON_CONTENT_TYPE } from 'src/helpers/constants.helper';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { PageOptionsDTO } from 'src/pagination/dtos/page-options.dto';
@@ -18,8 +20,9 @@ export class UsersController {
         ) {}
 
     @Get('/profile')
-    async profile() {
-        return;
+    @UseGuards(JwtAuthGuard)
+    async profile(@Request() req) {
+        return this.service.getOne(req.user.id);
     }
 
     @Post('/sign-up')
@@ -37,6 +40,7 @@ export class UsersController {
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     @Header('Content-Type', JSON_CONTENT_TYPE)
     async index(@Query() pageOptionsDto: PageOptionsDTO): Promise<string> {
         const response = await this.service.getAll(pageOptionsDto);

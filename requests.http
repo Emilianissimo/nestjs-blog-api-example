@@ -75,3 +75,13 @@ Content-Type: application/json
     "password": "emilain2228",
     "email": "email2@gmail.com"
 }
+
+### Protected user list
+GET http://localhost:3000/api/users/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVtYWlsIiwic3ViIjoyLCJpYXQiOjE2NzAwODYwNDUsImV4cCI6MTY3MDA4NjEwNX0.5VDuMw_UdzrLpKcnAAEmdcDD7TIOGh6nE7ZbF89OUrQ
+
+{
+    "password": "emilain2228",
+    "email": "email2@gmail.com"
+}

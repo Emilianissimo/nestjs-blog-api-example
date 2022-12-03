@@ -15,6 +15,23 @@ export class AuthService {
         private jwtService: JwtService
         ) {}
 
+    public async validateUser(body: LoginUserDTO): Promise<any> {
+        const [user] = await this.usersService.findByEmail(body.email);
+        if (!user) {
+            return null;
+        }
+
+        const [salt, hash] = user.password.split('.');
+        const incomingHash = (await scrypt(body.password, salt, 32)) as Buffer;
+        if(incomingHash.toString('hex') !== hash) {
+            return null;
+        }
+
+        const { password, ...result } = user;
+
+        return result;
+    }
+
     public async signup(body: CreateUserDTO) {
         const usersAr = await this.usersService.findByEmail(body.email);
         if (usersAr.length) {
@@ -42,7 +59,7 @@ export class AuthService {
             throw new UnprocessableEntityException('User with the same email is already exists!');
         }
 
-        const [salt, hash] = user.password.split('.')
+        const [salt, hash] = user.password.split('.');
 
         const incomingHash = (await scrypt(body.password, salt, 32)) as Buffer;
 
