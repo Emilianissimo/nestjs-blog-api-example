@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, BadRequestException, Patch, Delete, Query, Header, UnprocessableEntityException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Request, Patch, Delete, Query, Header, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { CreatePostDTO } from './dtos/create-post.dto';
 import { PostsService } from './posts.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -24,8 +24,8 @@ export class PostsController {
     }
 
     @Post()
-    store(@Body() body: CreatePostDTO) {
-        return this.service.store(body);
+    store(@Request() req: any, @Body() body: CreatePostDTO) {
+        return this.service.store(body, req.user.id);
     }
 
     @Get('/:id')
