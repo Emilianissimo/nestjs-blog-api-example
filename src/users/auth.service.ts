@@ -1,4 +1,5 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { CreateUserDTO } from './dtos/create-user.dto';
@@ -9,7 +10,10 @@ const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService) {}
+    constructor(
+        private usersService: UsersService,
+        private jwtService: JwtService
+        ) {}
 
     public async signup(body: CreateUserDTO) {
         const usersAr = await this.usersService.findByEmail(body.email);
@@ -24,7 +28,12 @@ export class AuthService {
 
         const user = await this.usersService.store(body, result);
 
-        return user;
+        return {
+            access_token: this.jwtService.sign({
+                username: user.name,
+                sub: user.id
+            })
+        };
     }
 
     public async signin(body: LoginUserDTO) {
@@ -41,6 +50,11 @@ export class AuthService {
             throw new UnprocessableEntityException('Incorrect email or password');
         }
 
-        return user;
+        return {
+            access_token: this.jwtService.sign({
+                username: user.name,
+                sub: user.id
+            })
+        };
     }
 }

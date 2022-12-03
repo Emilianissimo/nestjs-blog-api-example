@@ -55,3 +55,23 @@ Content-Type: application/json
 ### Delete category
 DELETE http://localhost:3000/api/categories/1
 Content-Type: application/json
+
+### AUTH
+### Sign up
+POST http://localhost:3000/api/users/sign-up
+Content-Type: application/json
+
+{
+    "name": "email",
+    "password": "emilain2228",
+    "email": "email2@gmail.com"
+}
+
+### Sign in
+POST http://localhost:3000/api/users/sign-in
+Content-Type: application/json
+
+{
+    "password": "emilain2228",
+    "email": "email2@gmail.com"
+}

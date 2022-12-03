@@ -7,7 +7,7 @@ start-prod:
 down:
 	docker-compose down
 build:
-	docker-compose --build dev db
+	docker-compose up --build dev db
 psql_bash:
 	docker exec -it crm_db_1 bash
 delete_all_volumes:

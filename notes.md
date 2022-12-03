@@ -7,6 +7,9 @@ npm install reflect-metadata@0.1.13
 # npm install -g @nestjs/cli
 npm install class-validator class-transformer
 nest new <app_name>
+# Authentication
+npm install --save @nestjs/jwt passport-jwt
+npm install --save-dev @types/passport-jwt
 ```
 
 # Useful commands
