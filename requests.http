@@ -77,11 +77,10 @@ Content-Type: application/json
 }
 
 ### Protected user list
-GET http://localhost:3000/api/users/profile
+PATCH http://localhost:3000/api/users/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVtYWlsIiwic3ViIjoyLCJpYXQiOjE2NzAwODYwNDUsImV4cCI6MTY3MDA4NjEwNX0.5VDuMw_UdzrLpKcnAAEmdcDD7TIOGh6nE7ZbF89OUrQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVtYWlsIiwic3ViIjoyLCJpYXQiOjE2NzAyNTE2NjgsImV4cCI6MTY3MDI1MTcyOH0.7hsB5MUJ2z_aiYqk6GvJU5NcYpKBilP_pxBk3s3NymM
 
 {
-    "password": "emilain2228",
-    "email": "email2@gmail.com"
+    "is_admin": true
 }
