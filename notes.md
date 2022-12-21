@@ -177,11 +177,9 @@ export class AppModule {}
 - Scopes are can be:
 
 
-| Type   |      Description      |
-|----------|:-------------:|------:|
-| DEFAULT | working as singletone across all application |
-| REQUEST | instance created exclusively for current request and garbage collecting |
-| TRANSIENT | each provider will have new instance |
+- DEFAULT -> working as singletone across all application 
+- REQUEST -> instance created exclusively for current request and garbage collecting 
+- TRANSIENT -> each provider will have new instance 
 
 This can be written as Injectable option:
 ```ts
