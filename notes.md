@@ -175,6 +175,7 @@ export class AppModule {}
 
 - Lazy loading, this is just for load modules somewhen after application started, in case of all modules are loading eager meanwhile application starting, even if they are not needed right now and this is bad for optimization.
 - Scopes are can be:
+
 | DEFAULT | working as singletone across all application |
 | REQUEST | instance created exclusively for current request and garbage collecting |
 | TRANSIENT | each provider will have new instance |
