@@ -125,3 +125,79 @@ export class AdminGuard extends AuthGuard('jwt') {
       }
 }
 ```
+
+
+# FAQ
+
+- What is shared module? -> Each module that using as singletone into DI.
+- Dynamic modules -> those are just modules, which can be created dynamically, like DB module and we providing list of providers, list of exports, type of database and others.
+```ts
+// Simple example
+import { Module, DynamicModule } from '@nestjs/common';
+import { createDatabaseProviders } from './database.providers';
+import { Connection } from './connection.provider';
+
+@Module({
+  providers: [Connection],
+})
+export class DatabaseModule {
+  static forRoot(entities = [], options?): DynamicModule {
+    const providers = createDatabaseProviders(options, entities);
+    return {
+      module: DatabaseModule,
+      providers: providers,
+      exports: providers,
+    };
+  }
+}
+```
+- forRoot is using as constructor, where we will pass entities
+Need to be implemented, if we want to have optional type and count of entities, loading from other modules and also can pass the options, like
+```ts
+{
+  global: true,
+  module: DatabaseModule,
+  providers: providers,
+  exports: providers,
+}
+```
+### Example of use
+```ts
+import { Module } from '@nestjs/common';
+import { DatabaseModule } from './database/database.module';
+import { User } from './users/entities/user.entity';
+
+@Module({
+  imports: [DatabaseModule.forRoot([User])],
+})
+export class AppModule {}
+```
+
+- Lazy loading, this is just for load modules somewhen after application started, in case of all modules are loading eager meanwhile application starting, even if they are not needed right now and this is bad for optimization.
+- Scopes are can be:
+| DEFAULT | working as singletone across all application |
+| REQUEST | instance created exclusively for current request and garbage collecting |
+| TRANSIENT | each provider will have new instance |
+This can be written as Injectable option:
+```ts
+import { Injectable, Scope } from '@nestjs/common';
+
+@Injectable({ scope: Scope.REQUEST })
+export class CatsService {}
+```
+Or as prop of provider register:
+```ts
+{
+  provide: 'CACHE_MANAGER',
+  useClass: CacheManager,
+  scope: Scope.TRANSIENT,
+}
+```
+- Custom exceptions -> to create them, we need just to extend Exception class, like:
+```ts
+export class ForbiddenException extends HttpException {
+  constructor() {
+    super('Forbidden', HttpStatus.FORBIDDEN);
+  }
+}
+```
